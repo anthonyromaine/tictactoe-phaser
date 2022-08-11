@@ -5,7 +5,7 @@ export default class Game extends Phaser.Scene {
     super('game');
   }
 
-  BOARD_SIZE = 58.25;
+  BOARD_SIZE = 81.55;
   BOARD_OFFSET = 5;
   GAME_CENTER_WIDTH = 180;
   GAME_CENTER_HEIGHT = 320;
@@ -67,11 +67,11 @@ export default class Game extends Phaser.Scene {
     this.mainCamera = this.cameras.add(0, 0);
     this.mainCamera.setBackgroundColor('#3D7AD6');
     // add board background image
-    this.add.image(this.GAME_CENTER_WIDTH, this.GAME_CENTER_HEIGHT, 'background').setScale(.25);
+    this.add.image(this.GAME_CENTER_WIDTH, this.GAME_CENTER_HEIGHT, 'background').setScale(.35);
 
     for (let i = 0; i < 9; i++) {
       // add board images
-      let board = this.add.image(this.boardLocations[i].x + this.BOARD_OFFSET, this.boardLocations[i].y, 'board').setScale(.25);
+      let board = this.add.image(this.boardLocations[i].x + this.BOARD_OFFSET, this.boardLocations[i].y - this.BOARD_OFFSET, 'board').setScale(.35);
       board.boardId = i;
       board.setInteractive();
       this.boardObjects.push(board);
@@ -85,20 +85,39 @@ export default class Game extends Phaser.Scene {
 
   handleClick(pointer, gameObject) {
     if (this.scene.player == 1) {
+      // update board
       gameObject.setTexture('x');
       this.scene.gameBoard[gameObject.boardId] = this.scene.player;
+
+      // check for winner
       if (this.scene.checkWin(gameObject.boardId)) {
         console.log('Player ', this.scene.player, ' won!!');
-        this.scene.endGame();
+        this.scene.endGame(this.scene.player);
       }
+
+      // check for full board
+      if (this.scene.isBoardFull()) {
+        this.scene.endGame(0);
+      }
+
+      // update player
       this.scene.player = 2;
     } else {
+      // update board
       gameObject.setTexture('o');
       this.scene.gameBoard[gameObject.boardId] = this.scene.player;
+
+      // check for winner
       if (this.scene.checkWin(gameObject.boardId)) {
         console.log('Player', this.scene.player, 'wins!!');
-        this.scene.endGame();
+        this.scene.endGame(this.scene.player);
       }
+
+      // check for full board
+      if (this.scene.isBoardFull()) {
+        this.scene.endGame(0);
+      }
+      // update player
       this.scene.player = 1;
     }
   }
@@ -141,7 +160,17 @@ export default class Game extends Phaser.Scene {
     return false;
   }
 
-  endGame() {
-    this.scene.start('game-over', { player: this.player });
+  endGame(winner) {
+    this.scene.start('game-over', { player: winner });
   }
+
+  isBoardFull() {
+    for (let i = 0; i < 9; i++) {
+      if (this.gameBoard[i] === 0) {
+        return false;
+      }
+    }
+    return true;
+  }
+
 }
