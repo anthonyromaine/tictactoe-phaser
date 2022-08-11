@@ -6,8 +6,11 @@ export default class Game extends Phaser.Scene {
   }
 
   BOARD_SIZE = 58.25;
+  BOARD_OFFSET = 5;
   GAME_CENTER_WIDTH = 180;
   GAME_CENTER_HEIGHT = 320;
+  player
+  gameBoard = [0, 0, 0, 0, 0, 0, 0, 0, 0];
   boardLocations = [
     {
       x: this.GAME_CENTER_WIDTH - this.BOARD_SIZE,
@@ -48,12 +51,14 @@ export default class Game extends Phaser.Scene {
   ];
 
   init() {
-
+    this.player = 1;
   }
 
   preload() {
     this.load.image('background', '/src/assets/background.png');
     this.load.image('board', '/src/assets/board.png');
+    this.load.image('x', '/src/assets/X.png');
+    this.load.image('o', '/src/assets/O.png');
     this.boardObjects = [];
   }
 
@@ -64,16 +69,28 @@ export default class Game extends Phaser.Scene {
     // add board background image
     this.add.image(this.GAME_CENTER_WIDTH, this.GAME_CENTER_HEIGHT, 'background').setScale(.25);
 
-    for(let i = 0; i < 9; i++){
+    for (let i = 0; i < 9; i++) {
       // add board images
-      this.boardObjects.push(this.add.image(this.boardLocations[i].x + 5, this.boardLocations[i].y, 'board').setScale(.25));
+      let board = this.add.image(this.boardLocations[i].x + this.BOARD_OFFSET, this.boardLocations[i].y, 'board').setScale(.25);
+      board.boardId = i;
+      board.setInteractive();
+      this.boardObjects.push(board);
     }
 
-    
+    this.input.on('gameobjectdown', this.handleClick);
+
 
   }
 
-  update() {
-
+  handleClick(pointer, gameObject) {
+    if (this.scene.player == 1) {
+      gameObject.setTexture('x');
+      this.scene.gameBoard[gameObject.boardId] = this.scene.player;
+      this.scene.player = 2;
+    } else {
+      gameObject.setTexture('o');
+      this.scene.gameBoard[gameObject.boardId] = this.scene.player;
+      this.scene.player = 1;
+    }
   }
 }
