@@ -89,6 +89,7 @@ export default class Game extends Phaser.Scene {
       this.scene.gameBoard[gameObject.boardId] = this.scene.player;
       if (this.scene.checkWin(gameObject.boardId)) {
         console.log('Player ', this.scene.player, ' won!!');
+        this.scene.endGame();
       }
       this.scene.player = 2;
     } else {
@@ -96,6 +97,7 @@ export default class Game extends Phaser.Scene {
       this.scene.gameBoard[gameObject.boardId] = this.scene.player;
       if (this.scene.checkWin(gameObject.boardId)) {
         console.log('Player', this.scene.player, 'wins!!');
+        this.scene.endGame();
       }
       this.scene.player = 1;
     }
@@ -137,5 +139,9 @@ export default class Game extends Phaser.Scene {
     }
 
     return false;
+  }
+
+  endGame() {
+    this.scene.start('game-over', { player: this.player });
   }
 }
