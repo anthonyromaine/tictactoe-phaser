@@ -82,15 +82,60 @@ export default class Game extends Phaser.Scene {
 
   }
 
+
   handleClick(pointer, gameObject) {
     if (this.scene.player == 1) {
       gameObject.setTexture('x');
       this.scene.gameBoard[gameObject.boardId] = this.scene.player;
+      if (this.scene.checkWin(gameObject.boardId)) {
+        console.log('Player ', this.scene.player, ' won!!');
+      }
       this.scene.player = 2;
     } else {
       gameObject.setTexture('o');
       this.scene.gameBoard[gameObject.boardId] = this.scene.player;
+      if (this.scene.checkWin(gameObject.boardId)) {
+        console.log('Player', this.scene.player, 'wins!!');
+      }
       this.scene.player = 1;
     }
+  }
+
+  checkWin(boardUpdated) {
+    let currPlayer = this.player;
+    let row = Math.floor(boardUpdated / 3);
+    let col = boardUpdated % 3;
+
+    // check row
+    for (let i = 0; i < 3; i++) {
+      // console.log('row:', i + (3 * index));
+      if (this.gameBoard[i + (3 * row)] !== currPlayer) {
+        break;
+      }
+      if (i == 2) {
+        return true;
+      }
+    }
+
+    // check column
+    for (let i = 0; i < 3; i++) {
+      if (this.gameBoard[col + (3 * i)] !== currPlayer) {
+        break;
+      }
+      if (i == 2) {
+        return true;
+      }
+    }
+
+    // check diagonals
+    if (this.gameBoard[0] === currPlayer && this.gameBoard[4] === currPlayer && this.gameBoard[8] === currPlayer) {
+      return true;
+    }
+
+    if (this.gameBoard[2] === currPlayer && this.gameBoard[4] === currPlayer && this.gameBoard[6] === currPlayer) {
+      return true;
+    }
+
+    return false;
   }
 }
