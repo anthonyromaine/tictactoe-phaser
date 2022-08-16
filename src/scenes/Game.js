@@ -10,7 +10,7 @@ export default class Game extends Phaser.Scene {
   GAME_CENTER_WIDTH = 180;
   GAME_CENTER_HEIGHT = 320;
   player
-  gameBoard = [0, 0, 0, 0, 0, 0, 0, 0, 0];
+  gameBoard
   boardLocations = [
     {
       x: this.GAME_CENTER_WIDTH - this.BOARD_SIZE,
@@ -52,6 +52,10 @@ export default class Game extends Phaser.Scene {
 
   init() {
     this.player = 1;
+    this.gameBoard = [0, 0, 0, 0, 0, 0, 0, 0, 0];
+    // set background color
+    this.mainCamera = this.cameras.add(0, 0);
+    this.mainCamera.setBackgroundColor('#3D7AD6');
   }
 
   preload() {
@@ -63,9 +67,7 @@ export default class Game extends Phaser.Scene {
   }
 
   create() {
-    // set background color
-    this.mainCamera = this.cameras.add(0, 0);
-    this.mainCamera.setBackgroundColor('#3D7AD6');
+
     // add board background image
     this.add.image(this.GAME_CENTER_WIDTH, this.GAME_CENTER_HEIGHT, 'background').setScale(.35);
 

@@ -6,7 +6,9 @@ export default class Home extends Phaser.Scene {
   }
 
   init() {
-
+    // set background color
+    this.mainCamera = this.cameras.add(0, 0);
+    this.mainCamera.setBackgroundColor('#3D7AD6');
   }
 
   preload() {
@@ -15,10 +17,6 @@ export default class Home extends Phaser.Scene {
   }
 
   create() {
-    // set background color
-    this.mainCamera = this.cameras.add(0, 0);
-    this.mainCamera.setBackgroundColor('#3D7AD6');
-
     const width = this.scale.width;
     const height = this.scale.height;
 
@@ -26,8 +24,19 @@ export default class Home extends Phaser.Scene {
     this.add.image(width * 0.5, height * 0.4, 'logo').setScale(0.5);
 
     // add play button
-    this.add.image(width * 0.5, height * 0.7, 'play').setScale(0.6);
+    let playBtn = this.add.image(width * 0.5, height * 0.7, 'play').setScale(0.6);
+    playBtn.setInteractive();
 
+    this.input.on('gameobjectdown', this.handleClick);
 
   }
+
+  handleClick() {
+    this.scene.startGame();
+  }
+
+  startGame() {
+    this.scene.start('game');
+  }
+
 }
