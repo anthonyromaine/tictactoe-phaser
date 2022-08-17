@@ -86,6 +86,11 @@ export default class Game extends Phaser.Scene {
 
 
   handleClick(pointer, gameObject) {
+    // dont update game if board has already been chosen
+    if (gameObject.texture.key !== 'board') {
+      return;
+    }
+    
     if (this.scene.player == 1) {
       // update board
       gameObject.setTexture('x');
