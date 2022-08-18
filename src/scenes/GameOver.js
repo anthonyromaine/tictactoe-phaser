@@ -1,4 +1,9 @@
 import Phaser from 'phaser';
+import homeUrl from '@/assets/home.png';
+import replayUrl from '@/assets/replay.png';
+import p1winsUrl from '@/assets/p1wins.png';
+import p2winsUrl from '@/assets/p2wins.png';
+import drawUrl from '@/assets/draw.png';
 
 export default class GameOver extends Phaser.Scene {
   constructor() {
@@ -18,11 +23,11 @@ export default class GameOver extends Phaser.Scene {
   }
 
   preload() {
-    this.load.image('home', '/src/assets/home.png');
-    this.load.image('replay', '/src/assets/replay.png');
-    this.load.image('p1wins', '/src/assets/p1wins.png');
-    this.load.image('p2wins', '/src/assets/p2wins.png');
-    this.load.image('draw', '/src/assets/draw.png');
+    this.load.image('home', homeUrl);
+    this.load.image('replay', replayUrl);
+    this.load.image('p1wins', p1winsUrl);
+    this.load.image('p2wins', p2winsUrl);
+    this.load.image('draw', drawUrl);
   }
 
   create() {

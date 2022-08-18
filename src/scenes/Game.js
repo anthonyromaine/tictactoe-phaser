@@ -1,4 +1,8 @@
 import Phaser from 'phaser';
+import backgroundUrl from '@/assets/background.png';
+import boardUrl from '@/assets/board.png';
+import xUrl from '@/assets/X.png';
+import oUrl from '@/assets/O.png';
 
 export default class Game extends Phaser.Scene {
   constructor() {
@@ -59,10 +63,10 @@ export default class Game extends Phaser.Scene {
   }
 
   preload() {
-    this.load.image('background', '/src/assets/background.png');
-    this.load.image('board', '/src/assets/board.png');
-    this.load.image('x', '/src/assets/X.png');
-    this.load.image('o', '/src/assets/O.png');
+    this.load.image('background', backgroundUrl);
+    this.load.image('board', boardUrl);
+    this.load.image('x', xUrl);
+    this.load.image('o', oUrl);
     this.boardObjects = [];
   }
 
@@ -90,7 +94,7 @@ export default class Game extends Phaser.Scene {
     if (gameObject.texture.key !== 'board') {
       return;
     }
-    
+
     if (this.scene.player == 1) {
       // update board
       gameObject.setTexture('x');

@@ -1,4 +1,6 @@
 import Phaser from 'phaser';
+import logoUrl from '@/assets/logo.png';
+import playUrl from '@/assets/play.png';
 
 export default class Home extends Phaser.Scene {
   constructor() {
@@ -12,8 +14,8 @@ export default class Home extends Phaser.Scene {
   }
 
   preload() {
-    this.load.image('logo', '/src/assets/logo.png');
-    this.load.image('play', '/src/assets/play.png');
+    this.load.image('logo', logoUrl);
+    this.load.image('play', playUrl);
   }
 
   create() {
